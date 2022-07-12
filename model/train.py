@@ -33,7 +33,8 @@ def train(net,device,train_dataset,epochs=100,lr=0.0001,batch_size=128):
             # 保存loss值最小的网络参数
             if loss < best_loss:
                 best_loss = loss
-                torch.save(net.state_dict(), 'best_model_net_BN_Attention.pth')
+                # torch.save(net.state_dict(), 'best_model_net_BN_Attention.pth')
+                torch.save(net.state_dict(), 'best_model_net_HybridSN.pth')
 
             loss.backward()
             optimizer.step()
@@ -49,10 +50,11 @@ if __name__ == '__main__':
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # 网络放到GPU上
-    net = HybridSN_BN_Attention()
+    net = HybridSN()
+    # net = HybridSN_BN_Attention()
     net = net.to(device)
-    train_dataset = HSI_Loader('../data/sim_data/X_train.npy',
-                               '../data/sim_data/y_train.npy')
+    train_dataset = HSI_Loader(r'D:\ZPEAR\Experiment_data\HybridSN\X_train.npy',
+                               r'D:\ZPEAR\Experiment_data\HybridSN\y_train.npy')
     train(net,device,train_dataset)
 
 
